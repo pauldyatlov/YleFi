@@ -4,27 +4,15 @@ using System.Collections.Generic;
 
 namespace Yle.Fi
 {
-    public interface IBindableList<out TItem> : IEnumerable<TItem>
-    {
-        event Action<TItem> ItemAdded;
-        event Action<TItem> ItemRemoved;
-
-        event Action<IEnumerable<TItem>> ItemsAdded;
-        event Action<IEnumerable<TItem>> ItemsRemoved;
-    }
-
-    public sealed class BindableListView<TItem, TView> : ViewList<TItem, TView>
+    public sealed class BindableViewList<TItem, TView> : ViewList<TItem, TView>
         where TView : UIElement
     {
-        private readonly IBindableList<TItem> _items;
+        private readonly BindableList<TItem> _items;
 
-        public event Action<TItem> OnRemove;
-
-        public BindableListView(IBindableList<TItem> items,
-            Func<TItem, TView> template,
+        public BindableViewList(BindableList<TItem> items,
+            TView template,
             Transform container,
-            Action<TItem, TView> showAction)
-            : base(items, template, container, showAction)
+            Action<TItem, TView> showAction) : base(items, func => template, container, showAction)
         {
             _items = items;
 
@@ -35,14 +23,6 @@ namespace Yle.Fi
             _items.ItemsRemoved += ItemsRemovedHandler;
         }
 
-        public BindableListView(IBindableList<TItem> items,
-            TView template,
-            Transform container,
-            Action<TItem, TView> showAction)
-            : this(items, arg => template, container, showAction)
-        {
-        }
-
         private void ItemAddedHandler(TItem item)
         {
             Add(item);
@@ -51,8 +31,6 @@ namespace Yle.Fi
         private void ItemRemovedHandler(TItem item)
         {
             Remove(item);
-
-            OnRemove?.Invoke(item);
         }
 
         private void ItemsAddedHandler(IEnumerable<TItem> items)

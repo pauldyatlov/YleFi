@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Yle.Fi
 {
@@ -18,24 +17,6 @@ namespace Yle.Fi
         public void AddDisposable(Action destroy)
         {
             _destroys.Add(destroy);
-        }
-
-        public ViewList<TItem, TView> AddViewList<TItem, TView>(IEnumerable<TItem> items,
-            Func<TItem, TView> template,
-            Transform container,
-            Action<TItem, TView> showAction)
-            where TView : UIElement
-        {
-            return AddDisposable(new ViewList<TItem, TView>(items, template, container, showAction));
-        }
-
-        public ViewList<TItem, TView> AddViewList<TItem, TView>(IEnumerable<TItem> items,
-            TView template,
-            Transform container,
-            Action<TItem, TView> showAction)
-            where TView : UIElement
-        {
-            return AddDisposable(new ViewList<TItem, TView>(items, arg => template, container, showAction));
         }
 
         public void Dispose()

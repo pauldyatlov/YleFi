@@ -32,12 +32,4 @@ namespace Yle.Fi
             _continuation?.Invoke();
         }
     }
-
-    public static class ExtensionMethods
-    {
-        public static WebRequestAwaiter GetAwaiter(this UnityWebRequestAsyncOperation asyncOp)
-        {
-            return new WebRequestAwaiter(asyncOp);
-        }
-    }
 }
