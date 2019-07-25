@@ -1,0 +1,12 @@
+*/Library/
+*/Temp/
+*/.idea/
+*/Assets/Temp/
+*/Assets/Temp.meta
+*/StreamingAssets/
+
+####### IDE plugins #######
+
+# --- JetBrains Rider ---
+**/Plugins/Editor/JetBrains/
+**/Plugins/Editor/JetBrains.meta
