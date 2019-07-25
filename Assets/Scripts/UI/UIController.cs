@@ -1,30 +1,25 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Yle.Fi
 {
     public sealed class UIController : UIElement
     {
-        [SerializeField] private ProgramView _programViewTemplate = default;
-        [SerializeField] private RectTransform _programsContainer = default;
-
-        [SerializeField] private Button _button = default;
+        [SerializeField] private ScrollerPanel _scrollerPanel = default;
 
         public event Action RequestNewData;
-        
+
         public void Show(BindableList<ContentData> tvProgramDatas)
         {
-            _button.onClick.AddListener(() => RequestNewData?.Invoke());
+            _scrollerPanel.Show(tvProgramDatas);
+            _scrollerPanel.RequestNewData += RequestNewDataHandler;
 
-            UI.AddDisposable(() => _button.onClick.RemoveAllListeners());
+            UI.AddDisposable(() => _scrollerPanel.RequestNewData -= RequestNewDataHandler);
+        }
 
-            UI.AddDisposable(new BindableViewList<ContentData, ProgramView>(tvProgramDatas, _programViewTemplate,
-                _programsContainer,
-                (item, view) =>
-                {
-                    view.Show(item);
-                }));
+        private void RequestNewDataHandler()
+        {
+            RequestNewData?.Invoke();
         }
     }
 }
