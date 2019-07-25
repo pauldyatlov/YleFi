@@ -3,6 +3,8 @@
 /obj/
 /Temp/
 /.idea/
+/*.xml
+.idea/
 
 # Visual Studio project files
 /*.csproj
