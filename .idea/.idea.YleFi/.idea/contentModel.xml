@@ -6,11 +6,17 @@
     <e p="D:\YleFi" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="JsonDotNet" t="Include">
+          <e p="link.xml" t="Include" />
+        </e>
         <e p="Scripts" t="Include">
           <e p="Engine.cs" t="Include" />
+          <e p="Extensions.cs" t="Include" />
           <e p="TVProgramData.cs" t="Include" />
           <e p="UI" t="Include">
+            <e p="BindableList.cs" t="Include" />
             <e p="BindableViewList.cs" t="Include" />
+            <e p="ProgramView.cs" t="Include" />
             <e p="UIController.cs" t="Include" />
             <e p="UIElement.cs" t="Include" />
             <e p="UIParent.cs" t="Include" />
