@@ -1,12 +1,10 @@
-*/Library/
-*/Temp/
-*/.idea/
-*/Assets/Temp/
-*/Assets/Temp.meta
-*/StreamingAssets/
+# Unity cache folders
+/Library/
+/obj/
+/Temp/
+/.idea/
 
-####### IDE plugins #######
-
-# --- JetBrains Rider ---
-**/Plugins/Editor/JetBrains/
-**/Plugins/Editor/JetBrains.meta
+# Visual Studio project files
+/*.csproj
+/*.sln
+/.vs/
