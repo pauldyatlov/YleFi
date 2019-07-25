@@ -1,10 +1,9 @@
 using TMPro;
 using UnityEngine;
-using Yle.Fi.EnhancedScroller;
 
 namespace Yle.Fi
 {
-    public class ProgramView : EnhancedScrollerCellView
+    public class ProgramView : UIElement
     {
         [SerializeField] private TextMeshProUGUI _nameLabel = default;
 
