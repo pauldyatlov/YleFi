@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\TVProgramData.cs" />
     <Compile Include="Assets\Scripts\UI\BindableList.cs" />
     <Compile Include="Assets\Scripts\UI\BindableViewList.cs" />
+    <Compile Include="Assets\Scripts\UI\PanoramaView.cs" />
     <Compile Include="Assets\Scripts\UI\ProgramView.cs" />
     <Compile Include="Assets\Scripts\UI\ScrollerPanel.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
