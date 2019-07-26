@@ -9,6 +9,7 @@ namespace Yle.Fi
         [SerializeField] private ProgramView _programViewTemplate = default;
         [SerializeField] private RectTransform _programsContainer = default;
 
+        [SerializeField] private GameObject _loader = default;
         [SerializeField] private Button _button = default;
 
         public event Action RequestNewData;

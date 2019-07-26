@@ -7,6 +7,7 @@ namespace Yle.Fi
     {
         [SerializeField] private ScrollerPanel _scrollerPanel = default;
 
+
         public event Action RequestNewData;
 
         public void Show(BindableList<ContentData> tvProgramDatas)
@@ -16,7 +17,7 @@ namespace Yle.Fi
 
             UI.AddDisposable(() => _scrollerPanel.RequestNewData -= RequestNewDataHandler);
         }
-
+        
         private void RequestNewDataHandler()
         {
             RequestNewData?.Invoke();
