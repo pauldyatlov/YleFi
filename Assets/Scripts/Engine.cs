@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using UnityEditor.VersionControl;
+using UnityEngine;
 using UnityEngine.Networking;
+using Task = System.Threading.Tasks.Task;
 
 namespace Yle.Fi
 {
@@ -13,11 +15,13 @@ namespace Yle.Fi
         private const string APP_ID = "dace39cd";
         private const string APP_KEY = "41d5031aabfc3f94c7eb54c7f987ab90";
 
-        [SerializeField] private UIController _uiController = default;
+        [SerializeField] private ScrollerPanel _uiController = default;
 
         private BindableList<ContentData> _tvProgramDatas;
 
         private int _requestOffset;
+        private string _currentUrl;
+        private bool _requesting;
 
         private void Awake()
         {
@@ -28,14 +32,47 @@ namespace Yle.Fi
             _uiController.RequestNewData += RequestNewDataHandler;
         }
 
-        private void RequestNewDataHandler()
+        private async void RequestNewDataHandler()
         {
-            SendRequest();
+            await TrySendRequest(true);
         }
 
-        private async void SendRequest()
+        private async void RequestNextDataHandler()
         {
+            await TrySendRequest(false);
+
+            _requestOffset += REQUEST_LIMIT;
+        }
+
+        private async Task TrySendRequest(bool clearInfo)
+        {
+            if (_requesting)
+                return;
+
             var url = string.Format(URL_TEMPLATE, "muumi", REQUEST_LIMIT, _requestOffset, APP_ID, APP_KEY);
+
+            if (url == _currentUrl)
+                return;
+
+            if (clearInfo)
+            {
+                _requestOffset = 0;
+                _tvProgramDatas.Clear();
+            }
+
+            _requesting = true;
+            _uiController.SetRequestingStatus(_requesting);
+
+            _currentUrl = url;
+
+            await Send(url);
+
+            _requesting = false;
+            _uiController.SetRequestingStatus(_requesting);
+        }
+
+        private async Task Send(string url)
+        {
             var request = UnityWebRequest.Get(url);
 
             Debug.Log($"Sending to\n{url}");
@@ -45,7 +82,6 @@ namespace Yle.Fi
             if (!request.isHttpError && !request.isNetworkError)
             {
                 var handlerText = request.downloadHandler.text;
-
                 Debug.Log(handlerText);
 
                 var result = handlerText.JsonTo<TVProgramData>();
@@ -58,8 +94,6 @@ namespace Yle.Fi
             }
 
             request.Dispose();
-
-            _requestOffset += REQUEST_LIMIT;
         }
     }
 }

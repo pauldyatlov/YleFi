@@ -25,5 +25,11 @@ namespace Yle.Fi
                 _programsContainer,
                 (item, view) => { view.Show(item); }));
         }
+
+        public void SetRequestingStatus(bool isRequesting)
+        {
+            _loader.gameObject.SetActive(isRequesting);
+            _button.gameObject.SetActive(!isRequesting);
+        }
     }
 }
