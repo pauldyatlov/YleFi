@@ -7,9 +7,6 @@ namespace Yle.Fi
 {
     public sealed class BindableList<T> : IEnumerable<T>
     {
-        public event Action<T> ItemAdded;
-        public event Action<T> ItemRemoved;
-
         public event Action<IEnumerable<T>> ItemsAdded;
         public event Action<IEnumerable<T>> ItemsRemoved;
 
@@ -18,13 +15,6 @@ namespace Yle.Fi
         public BindableList()
         {
             _list = new List<T>();
-        }
-
-        public void Add(T newItem)
-        {
-            _list.Add(newItem);
-
-            ItemAdded?.Invoke(newItem);
         }
 
         public void AddRange(IEnumerable<T> list)

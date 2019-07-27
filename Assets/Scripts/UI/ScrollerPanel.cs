@@ -29,12 +29,12 @@ namespace Yle.Fi
             _contentDatas = contentDatas;
 
             _inputField.onEndEdit.AddListener(arg => RequestNewData?.Invoke(arg));
-            UI.AddDisposable(() => _inputField.onEndEdit.RemoveAllListeners());
+            AddDisposable(() => _inputField.onEndEdit.RemoveAllListeners());
 
             _button.onClick.AddListener(() => RequestNewData?.Invoke(_inputField.text));
-            UI.AddDisposable(() => _button.onClick.RemoveAllListeners());
+            AddDisposable(() => _button.onClick.RemoveAllListeners());
 
-            UI.AddDisposable(new BindableViewList<ContentData, ProgramView>(contentDatas,
+            AddDisposable(new BindableViewList<ContentData, ProgramView>(contentDatas,
                 _programViewTemplate,
                 _programsContainer,
                 (item, view) => { view.Show(item); }));

@@ -13,7 +13,7 @@ namespace Yle.Fi
         private readonly Transform _container;
         private readonly Action<TItem, TView> _showAction;
 
-        public ViewList(BindableList<TItem> items,
+        protected ViewList(IEnumerable<TItem> items,
             Func<TItem, TView> template,
             Transform container,
             Action<TItem, TView> showAction)

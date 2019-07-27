@@ -16,21 +16,8 @@ namespace Yle.Fi
         {
             _items = items;
 
-            _items.ItemAdded += ItemAddedHandler;
-            _items.ItemRemoved += ItemRemovedHandler;
-
             _items.ItemsAdded += ItemsAddedHandler;
             _items.ItemsRemoved += ItemsRemovedHandler;
-        }
-
-        private void ItemAddedHandler(TItem item)
-        {
-            Add(item);
-        }
-
-        private void ItemRemovedHandler(TItem item)
-        {
-            Remove(item);
         }
 
         private void ItemsAddedHandler(IEnumerable<TItem> items)
@@ -47,9 +34,6 @@ namespace Yle.Fi
 
         public override void Dispose()
         {
-            _items.ItemAdded -= ItemAddedHandler;
-            _items.ItemRemoved -= ItemRemovedHandler;
-
             _items.ItemsAdded -= ItemsAddedHandler;
             _items.ItemsRemoved -= ItemsRemovedHandler;
 
