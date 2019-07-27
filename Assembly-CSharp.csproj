@@ -65,7 +65,6 @@
     <Compile Include="Assets\Scripts\UI\ProgramView.cs" />
     <Compile Include="Assets\Scripts\UI\ScrollerPanel.cs" />
     <Compile Include="Assets\Scripts\UI\UIElement.cs" />
-    <Compile Include="Assets\Scripts\UI\UIParent.cs" />
     <Compile Include="Assets\Scripts\UI\ViewList.cs" />
     <Compile Include="Assets\Scripts\Utils\Extensions.cs" />
     <Compile Include="Assets\Scripts\WebRequestAwaiter.cs" />
