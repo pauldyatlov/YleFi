@@ -1,5 +1,4 @@
-﻿using UnityEditor.VersionControl;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using Task = System.Threading.Tasks.Task;
 
@@ -7,33 +6,37 @@ namespace Yle.Fi
 {
     public sealed class Engine : MonoBehaviour
     {
-        private const string URL_TEMPLATE =
-            "https://external.api.yle.fi/v1/programs/items.json?limit={1}&offset={2}&app_id={3}&app_key={4}";
+        public const int REQUEST_LIMIT = 10;
 
-        private const int REQUEST_LIMIT = 10;
+        private const string URL_TEMPLATE =
+            "https://external.api.yle.fi/v1/programs/items.json?q={0}&limit={1}&offset={2}&app_id={3}&app_key={4}&availability=ondemand";
 
         private const string APP_ID = "dace39cd";
         private const string APP_KEY = "41d5031aabfc3f94c7eb54c7f987ab90";
 
-        [SerializeField] private ScrollerPanel _uiController = default;
+        [SerializeField] private ScrollerPanel _scrollerPanel = default;
 
         private BindableList<ContentData> _tvProgramDatas;
 
         private int _requestOffset;
         private string _currentUrl;
+        private string _searchQuery;
         private bool _requesting;
 
         private void Awake()
         {
             _tvProgramDatas = new BindableList<ContentData>();
 
-            _uiController.Show(_tvProgramDatas);
+            _scrollerPanel.Show(_tvProgramDatas);
 
-            _uiController.RequestNewData += RequestNewDataHandler;
+            _scrollerPanel.RequestNewData += RequestNewDataHandler;
+            _scrollerPanel.RequestNextData += RequestNextDataHandler;
         }
 
-        private async void RequestNewDataHandler()
+        private async void RequestNewDataHandler(string searchQuery)
         {
+            _searchQuery = searchQuery;
+
             await TrySendRequest(true);
         }
 
@@ -49,10 +52,13 @@ namespace Yle.Fi
             if (_requesting)
                 return;
 
-            var url = string.Format(URL_TEMPLATE, "muumi", REQUEST_LIMIT, _requestOffset, APP_ID, APP_KEY);
+            var url = string.Format(URL_TEMPLATE, _searchQuery, REQUEST_LIMIT, _requestOffset, APP_ID, APP_KEY);
 
             if (url == _currentUrl)
                 return;
+
+            _requesting = true;
+            _scrollerPanel.SetRequestingStatus(_requesting);
 
             if (clearInfo)
             {
@@ -60,22 +66,19 @@ namespace Yle.Fi
                 _tvProgramDatas.Clear();
             }
 
-            _requesting = true;
-            _uiController.SetRequestingStatus(_requesting);
-
             _currentUrl = url;
 
             await Send(url);
 
             _requesting = false;
-            _uiController.SetRequestingStatus(_requesting);
+            _scrollerPanel.SetRequestingStatus(_requesting);
         }
 
         private async Task Send(string url)
         {
             var request = UnityWebRequest.Get(url);
 
-            Debug.Log($"Sending to\n{url}");
+            Debug.Log($">>> sending to\n{url}");
 
             await request.SendWebRequest();
 
@@ -87,10 +90,14 @@ namespace Yle.Fi
                 var result = handlerText.JsonTo<TVProgramData>();
 
                 _tvProgramDatas.AddRange(result.Data);
+                _scrollerPanel.DisplayError(string.Empty);
             }
             else
             {
                 Debug.LogError($"Request error [{request.error}]");
+
+                _tvProgramDatas.Clear();
+                _scrollerPanel.DisplayError(request.error);
             }
 
             request.Dispose();

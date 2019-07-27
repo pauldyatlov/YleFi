@@ -35,5 +35,13 @@ namespace Yle.Fi
         {
             return GetOrAddComponent<T>(component.gameObject);
         }
+
+        public static string SubstringIfNecessary(this string @string, int count)
+        {
+            if (string.IsNullOrEmpty(@string))
+                return string.Empty;
+
+            return @string.Length > count ? @string.Substring(0, count - 2) + "..." : @string;
+        }
     }
 }
