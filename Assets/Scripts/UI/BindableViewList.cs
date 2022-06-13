@@ -4,12 +4,11 @@ using System.Collections.Generic;
 
 namespace Yle.Fi
 {
-    public sealed class BindableViewList<TItem, TView> : ViewList<TItem, TView>
-        where TView : UIElement
+    internal sealed class BindableViewList<TItem, TView> : ViewList<TItem, TView> where TView : UIElement
     {
         private readonly BindableList<TItem> _items;
 
-        public BindableViewList(BindableList<TItem> items,
+        internal BindableViewList(BindableList<TItem> items,
             TView template,
             Transform container,
             Action<TItem, TView> showAction) : base(items, func => template, container, showAction)

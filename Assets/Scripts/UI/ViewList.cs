@@ -5,8 +5,7 @@ using System.Collections;
 
 namespace Yle.Fi
 {
-    public class ViewList<TItem, TView> : IDisposable, IEnumerable<KeyValuePair<TItem, TView>>
-        where TView : UIElement
+    internal class ViewList<TItem, TView> : IDisposable, IEnumerable<KeyValuePair<TItem, TView>> where TView : UIElement
     {
         private readonly Dictionary<TItem, TView> _views = new Dictionary<TItem, TView>();
         private readonly Func<TItem, TView> _template;
@@ -66,8 +65,7 @@ namespace Yle.Fi
             _views.Clear();
         }
 
-        public IEnumerator<KeyValuePair<TItem, TView>> GetEnumerator() =>
-            ((IEnumerable<KeyValuePair<TItem, TView>>)_views).GetEnumerator();
+        public IEnumerator<KeyValuePair<TItem, TView>> GetEnumerator() => ((IEnumerable<KeyValuePair<TItem, TView>>)_views).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _views.GetEnumerator();
     }

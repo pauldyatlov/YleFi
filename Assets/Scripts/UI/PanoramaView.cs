@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Yle.Fi
 {
-    public class PanoramaView : MonoBehaviour
+    internal sealed class PanoramaView : MonoBehaviour
     {
         [SerializeField] private Camera _panoramaCamera = default;
         [SerializeField] private float _intensity = 0.2f;

@@ -6,15 +6,14 @@ namespace Yle.Fi
 {
     public sealed class Engine : MonoBehaviour
     {
-        public const int REQUEST_LIMIT = 10;
+        internal const int REQUEST_LIMIT = 10;
 
-        private const string URL_TEMPLATE =
-            "https://external.api.yle.fi/v1/programs/items.json?q={0}&limit={1}&offset={2}&app_id={3}&app_key={4}&availability=ondemand";
+        private const string URL_TEMPLATE = "https://external.api.yle.fi/v1/programs/items.json?q={0}&limit={1}&offset={2}&app_id={3}&app_key={4}&availability=ondemand";
 
         private const string APP_ID = "dace39cd";
         private const string APP_KEY = "41d5031aabfc3f94c7eb54c7f987ab90";
 
-        [SerializeField] private ScrollerPanel _scrollerPanel = default;
+        [SerializeField] private ScrollerPanel _scrollerPanel;
 
         private BindableList<ContentData> _tvProgramDatas;
 
@@ -82,7 +81,7 @@ namespace Yle.Fi
 
             await request.SendWebRequest();
 
-            if (!request.isHttpError && !request.isNetworkError)
+            if (request.result == UnityWebRequest.Result.Success)
             {
                 var handlerText = request.downloadHandler.text;
                 Debug.Log(handlerText);
@@ -101,6 +100,12 @@ namespace Yle.Fi
             }
 
             request.Dispose();
+        }
+
+        private void OnDestroy()
+        {
+            _scrollerPanel.RequestNewData -= RequestNewDataHandler;
+            _scrollerPanel.RequestNextData -= RequestNextDataHandler;
         }
     }
 }

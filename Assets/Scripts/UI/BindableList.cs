@@ -12,12 +12,12 @@ namespace Yle.Fi
 
         private readonly List<T> _list;
 
-        public BindableList()
+        internal BindableList()
         {
             _list = new List<T>();
         }
 
-        public void AddRange(IEnumerable<T> list)
+        internal void AddRange(IEnumerable<T> list)
         {
             var newItems = list.ToArray().Where(x => !_list.Contains(x)).ToArray();
 
@@ -26,7 +26,7 @@ namespace Yle.Fi
             ItemsAdded?.Invoke(newItems);
         }
 
-        public void Clear()
+        internal void Clear()
         {
             ItemsRemoved?.Invoke(_list);
 

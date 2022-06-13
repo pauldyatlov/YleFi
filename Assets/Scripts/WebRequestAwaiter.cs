@@ -5,20 +5,20 @@ using UnityEngine.Networking;
 
 namespace Yle.Fi
 {
-    public class WebRequestAwaiter : INotifyCompletion
+    internal sealed class WebRequestAwaiter : INotifyCompletion
     {
         private readonly UnityWebRequestAsyncOperation _asyncOp;
         private Action _continuation;
 
-        public WebRequestAwaiter(UnityWebRequestAsyncOperation asyncOp)
+        internal WebRequestAwaiter(UnityWebRequestAsyncOperation asyncOp)
         {
             _asyncOp = asyncOp;
             asyncOp.completed += OnRequestCompleted;
         }
 
-        public bool IsCompleted => _asyncOp.isDone;
+        internal bool IsCompleted => _asyncOp.isDone;
 
-        public void GetResult()
+        internal void GetResult()
         {
         }
 
@@ -27,7 +27,7 @@ namespace Yle.Fi
             _continuation = continuation;
         }
 
-        private void OnRequestCompleted(AsyncOperation obj)
+        private void OnRequestCompleted(AsyncOperation operation)
         {
             _continuation?.Invoke();
         }

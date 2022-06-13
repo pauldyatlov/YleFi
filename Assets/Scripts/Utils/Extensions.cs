@@ -1,26 +1,28 @@
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
 
 namespace Yle.Fi
 {
-    public static class Extensions
+    internal static class Extensions
     {
-        public static WebRequestAwaiter GetAwaiter(this UnityWebRequestAsyncOperation asyncOp)
+        internal static WebRequestAwaiter GetAwaiter(this UnityWebRequestAsyncOperation asyncOp)
         {
             return new WebRequestAwaiter(asyncOp);
         }
 
-        public static T JsonTo<T>(this string json)
+        [CanBeNull]
+        internal static T JsonTo<T>(this string json)
         {
             return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public static string SubstringIfNecessary(this string @string, int count)
+        internal static string SubstringIfNecessary([CanBeNull] this string value, int count)
         {
-            if (string.IsNullOrEmpty(@string))
+            if (string.IsNullOrEmpty(value))
                 return string.Empty;
 
-            return @string.Length > count ? @string.Substring(0, count - 2) + "..." : @string;
+            return value.Length > count ? value.Substring(0, count - 2) + "..." : value;
         }
     }
 }

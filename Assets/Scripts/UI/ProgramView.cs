@@ -6,23 +6,23 @@ using UnityEngine.UI;
 
 namespace Yle.Fi
 {
-    public class ProgramView : UIElement, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    internal sealed class ProgramView : UIElement, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-        [SerializeField] private GameObject _expandedPanel = default;
+        [SerializeField] private GameObject _expandedPanel;
 
-        [SerializeField] private TextMeshProUGUI _nameLabel = default;
-        [SerializeField] private TextMeshProUGUI _descriptionLabel = default;
-        [SerializeField] private TextMeshProUGUI _programTypeLabel = default;
-        [SerializeField] private TextMeshProUGUI _episodeNumberLabel = default;
-        [SerializeField] private TextMeshProUGUI _creatorLabel = default;
+        [SerializeField] private TextMeshProUGUI _nameLabel;
+        [SerializeField] private TextMeshProUGUI _descriptionLabel;
+        [SerializeField] private TextMeshProUGUI _programTypeLabel;
+        [SerializeField] private TextMeshProUGUI _episodeNumberLabel;
+        [SerializeField] private TextMeshProUGUI _creatorLabel;
 
-        [SerializeField] private Image _background = default;
-        [SerializeField] private Color _defaultColor = default;
-        [SerializeField] private Color _hoverColor = default;
+        [SerializeField] private Image _background;
+        [SerializeField] private Color _defaultColor;
+        [SerializeField] private Color _hoverColor;
 
         private bool _selected;
 
-        public void Show(ContentData data)
+        internal void Show(ContentData data)
         {
             _nameLabel.text = data.Title.Value.SubstringIfNecessary(20);
 

@@ -8,21 +8,25 @@ namespace Yle.Fi
     {
         private readonly List<Action> _destroys = new List<Action>();
 
-        public T AddDisposable<T>(T disposable)
-            where T : IDisposable
+        protected T AddDisposable<T>(T disposable) where T : IDisposable
         {
             _destroys.Add(disposable.Dispose);
             return disposable;
         }
 
-        public void Display()
+        protected void ShowGameObject()
         {
-            ShowGameObject();
+            gameObject.SetActive(true);
         }
 
-        public void AddDisposable(Action destroy)
+        protected void AddDisposable(Action destroy)
         {
             _destroys.Add(destroy);
+        }
+
+        private void HideGameObject()
+        {
+            gameObject.SetActive(false);
         }
 
         public void Dispose()
@@ -33,16 +37,6 @@ namespace Yle.Fi
             _destroys.Clear();
 
             HideGameObject();
-        }
-
-        protected void ShowGameObject()
-        {
-            gameObject.SetActive(true);
-        }
-
-        private void HideGameObject()
-        {
-            gameObject.SetActive(false);
         }
     }
 }

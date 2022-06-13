@@ -6,17 +6,17 @@ using UnityEngine.UI;
 
 namespace Yle.Fi
 {
-    public class ScrollerPanel : UIElement
+    internal sealed class ScrollerPanel : UIElement
     {
-        [SerializeField] private ProgramView _programViewTemplate = default;
-        [SerializeField] private RectTransform _programsContainer = default;
+        [SerializeField] private ProgramView _programViewTemplate;
+        [SerializeField] private RectTransform _programsContainer;
 
-        [SerializeField] private GameObject _loader = default;
-        [SerializeField] private TMP_InputField _inputField = default;
-        [SerializeField] private Button _button = default;
+        [SerializeField] private GameObject _loader;
+        [SerializeField] private TMP_InputField _inputField;
+        [SerializeField] private Button _button;
 
-        [SerializeField] private TextMeshProUGUI _errorLabel = default;
-        [SerializeField] private ScrollRect _scrollRect = default;
+        [SerializeField] private TextMeshProUGUI _errorLabel;
+        [SerializeField] private ScrollRect _scrollRect;
 
         public event Action<string> RequestNewData;
         public event Action RequestNextData;
@@ -24,7 +24,7 @@ namespace Yle.Fi
         private BindableList<ContentData> _contentDatas;
         private bool _isRequesting;
 
-        public void Show(BindableList<ContentData> contentDatas)
+        internal void Show(BindableList<ContentData> contentDatas)
         {
             _contentDatas = contentDatas;
 
@@ -37,10 +37,13 @@ namespace Yle.Fi
             AddDisposable(new BindableViewList<ContentData, ProgramView>(contentDatas,
                 _programViewTemplate,
                 _programsContainer,
-                (item, view) => { view.Show(item); }));
+                (item, view) =>
+                {
+                    view.Show(item);
+                }));
         }
 
-        public void SetRequestingStatus(bool isRequesting)
+        internal void SetRequestingStatus(bool isRequesting)
         {
             _isRequesting = isRequesting;
 
@@ -48,7 +51,7 @@ namespace Yle.Fi
             _button.gameObject.SetActive(!isRequesting);
         }
 
-        public void DisplayError(string requestError)
+        internal void DisplayError(string requestError)
         {
             _errorLabel.text = requestError;
         }
